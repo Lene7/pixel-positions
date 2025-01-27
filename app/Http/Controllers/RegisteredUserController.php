@@ -32,15 +32,12 @@ class RegisteredUserController extends Controller
 
         $employerAttributes = $request->validate([
             'employer' => ['required'],
-            'logo' => ['required', File::types(['png', 'jpg', 'jpeg', 'webp', 'svg'])],
         ]);
 
         $user = User::create($userAttributes);
 
-        $logoPath = $request->logo->store('logos');
         $employer = $user->employer()->create([
-            'name' => $employerAttributes['employer'],
-            'logo' => $logoPath
+            'name' => $employerAttributes['employer']
         ]);
 
         Auth::login($user);
